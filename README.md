@@ -2,6 +2,8 @@
 
 A self-contained, static web map that replicates the [Minnesota Department of Commerce TENs Suitability Mapping Tool](https://www.commerce.state.mn.us/) (originally hosted on ArcGIS Online Experience Builder), deployable to GitHub Pages at zero cost.
 
+View the site at: https://dennislduffy.github.io/tens-map/
+
 ## Purpose
 
 This is a proof of concept demonstrating that expensive ArcGIS Online hosting is unnecessary for this type of application. All 24 data layers are downloaded from the public ArcGIS Feature Service and converted to open formats (GeoJSON / PMTiles).
@@ -9,6 +11,7 @@ This is a proof of concept demonstrating that expensive ArcGIS Online hosting is
 ## Data Source
 
 **ArcGIS Feature Service:**
+
 ```
 https://services5.arcgis.com/FKwcDz27wRAj4HUT/arcgis/rest/services/
 Minnesota_Department_of_Commerce_TENs_Suitability_Mapping_Tool_WFL1/FeatureServer
@@ -40,11 +43,13 @@ tens-map/
 ## How to Reproduce
 
 **Requirements:**
+
 - macOS with Homebrew
 - Python 3.11+
 - tippecanoe (installed via Homebrew)
 
 **Python packages:**
+
 ```bash
 pip3 install geopandas requests pandas shapely folium pyogrio
 ```
@@ -75,12 +80,13 @@ open docs/index.html
 
 ## Architecture Decisions
 
-| Layer size | Format | Rationale |
-|-----------|--------|-----------|
-| < 50 MB | GeoJSON (inline) | Simple, no tile server needed |
-| ≥ 50 MB | PMTiles | Efficient tile delivery, served as static file |
+| Layer size | Format           | Rationale                                      |
+| ---------- | ---------------- | ---------------------------------------------- |
+| < 50 MB    | GeoJSON (inline) | Simple, no tile server needed                  |
+| ≥ 50 MB    | PMTiles          | Efficient tile delivery, served as static file |
 
 **Why not ArcGIS Online?**
+
 - No annual AGOL subscription required
 - No vendor lock-in
 - Faster page loads (no Esri JS API overhead)
