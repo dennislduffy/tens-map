@@ -32,11 +32,7 @@ def tippecanoe_convert(gpkg_path: Path, layer_id: int, layer_name: str):
     safe_name = layer_name.replace(" ", "_").replace("/", "-")
     output_path = TILES_DIR / f"{layer_id:02d}_{safe_name}.pmtiles"
 
-    if output_path.exists():
-        print(f"  ✓ PMTiles already exists: {output_path.name}")
-        return output_path
-
-    # Choose zoom range by layer type.
+    # Choose zoom range by layer type (needed for both new builds and manifest reporting).
     # GitHub Pages has a 100 MB file limit, so we tune zoom ranges aggressively.
     # Buildings layer is skipped — too large for static hosting (handled separately).
     if layer_name in ("Rivers", "Water Bodies"):
@@ -48,6 +44,10 @@ def tippecanoe_convert(gpkg_path: Path, layer_id: int, layer_name: str):
     else:
         min_zoom, max_zoom = 7, 12
         extra_flags = ["--drop-densest-as-needed", "--simplification=8", "--no-progress-indicator"]
+
+    if output_path.exists():
+        print(f"  ✓ PMTiles already exists: {output_path.name}")
+        return output_path, max_zoom
 
     # Export gpkg → GeoJSON temp file first (tippecanoe needs GeoJSON or FlatGeobuf)
     temp_geojson = PROCESSED_DIR / f"_temp_{layer_id:02d}.geojson"
@@ -78,7 +78,7 @@ def tippecanoe_convert(gpkg_path: Path, layer_id: int, layer_name: str):
 
     size_mb = output_path.stat().st_size / 1_048_576
     print(f"  ✓ PMTiles saved: {output_path.name} ({size_mb:.1f} MB)")
-    return output_path
+    return output_path, max_zoom
 
 
 def to_geojson(gpkg_path: Path, layer_id: int, layer_name: str):
@@ -180,7 +180,7 @@ def main():
                     "features": rec["n"],
                 }
             else:
-                out = tippecanoe_convert(rec["path"], rec["id"], rec["name"])
+                out, mz = tippecanoe_convert(rec["path"], rec["id"], rec["name"])
                 safe_name = rec["name"].replace(" ", "_").replace("/", "-")
                 manifest[rec["id"]] = {
                     "type": "pmtiles",
@@ -188,6 +188,7 @@ def main():
                     "name": rec["name"],
                     "layer_name": safe_name,  # tippecanoe internal layer name
                     "features": rec["n"],
+                    "max_zoom": mz,
                 }
         except Exception as exc:
             print(f"  ✗ ERROR processing layer {rec['id']}: {exc}")

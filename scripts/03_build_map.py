@@ -118,6 +118,7 @@ def build_map(manifest: dict):
             "url": meta.get("url", ""),
             "features": meta.get("features", 0),
             "layer_name": meta.get("layer_name", ""),  # tippecanoe internal layer name
+            "max_zoom": meta.get("max_zoom", 12),      # highest zoom level stored in PMTiles
         }
         layer_defs.append(entry)
 
@@ -164,6 +165,7 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
         layer_type = ld["type"]
         # Use the layer_name that tippecanoe actually stored (must match exactly)
         safe_name = ld.get("layer_name") or ld["name"].replace(" ", "_").replace("/", "-")
+        max_zoom = ld.get("max_zoom", 12)
 
         popup_fn = f"""function(feature, layer) {{
       if (feature.properties) {{
@@ -234,6 +236,7 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
   (function() {{
     var layer = protomapsL.leafletLayer({{
       url: "{fname}",
+      maxDataZoom: {max_zoom},
       paintRules: [
         {{
           dataLayer: "{safe_name}",
@@ -269,22 +272,23 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
         elif layer_type == "arcgis":
             arcgis_url = ld["url"]
             js = f"""
-  // Layer {lid}: {ld["name"]} (ArcGIS live service — zoom 14+, {n_features:,} features total)
+  // Layer {lid}: {ld["name"]} (ArcGIS live service — zoom 15+, {n_features:,} features total)
   (function() {{
     var serviceUrl = "{arcgis_url}";
     var layerGroup = L.layerGroup();
     var lastBounds = null;
+    var debounceTimer = null;
 
     function loadFeatures() {{
       var zoom = map.getZoom();
-      if (zoom < 14) {{
+      if (zoom < 15) {{
         layerGroup.clearLayers();
         lastBounds = null;
         return;
       }}
       var bounds = map.getBounds();
       if (lastBounds && lastBounds.contains(bounds)) return;
-      lastBounds = bounds.pad(0.2);
+      lastBounds = bounds.pad(0.1);
       var bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()].join(',');
       var url = serviceUrl + '/query?where=1%3D1&geometry=' + bbox
         + '&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects'
@@ -311,12 +315,16 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
         .catch(function(e) {{ console.warn("Load error:", e); }});
     }}
 
-    map.on('zoomend moveend', function() {{
-      if (map.hasLayer(layerGroup)) loadFeatures();
-    }});
+    function debouncedLoad() {{
+      if (!map.hasLayer(layerGroup)) return;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(loadFeatures, 400);
+    }}
+
+    map.on('zoomend moveend', debouncedLoad);
     layerGroup.on('add', function() {{ loadFeatures(); }});
 
-    overlayLayers["{name} ({n_features:,} — zoom 14+)"] = layerGroup;
+    overlayLayers["{name} ({n_features:,} — zoom 15+)"] = layerGroup;
   }})();
 """
         else:

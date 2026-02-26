@@ -11,28 +11,32 @@
     "path": "data/tiles/02_Combined_TENs_Suitability_Hotspots_(drilling_+_population_density).pmtiles",
     "name": "Combined TENs Suitability Hotspots (drilling + population density)",
     "layer_name": "Combined_TENs_Suitability_Hotspots_(drilling_+_population_density)",
-    "features": 895
+    "features": 895,
+    "max_zoom": 12
   },
   "3": {
     "type": "pmtiles",
     "path": "data/tiles/03_Drilling_Suitability.pmtiles",
     "name": "Drilling Suitability",
     "layer_name": "Drilling_Suitability",
-    "features": 63
+    "features": 63,
+    "max_zoom": 12
   },
   "4": {
     "type": "pmtiles",
     "path": "data/tiles/04_Rivers.pmtiles",
     "name": "Rivers",
     "layer_name": "Rivers",
-    "features": 337418
+    "features": 337418,
+    "max_zoom": 10
   },
   "5": {
     "type": "pmtiles",
     "path": "data/tiles/05_Water_Bodies.pmtiles",
     "name": "Water Bodies",
     "layer_name": "Water_Bodies",
-    "features": 205031
+    "features": 205031,
+    "max_zoom": 10
   },
   "6": {
     "type": "geojson",
@@ -117,7 +121,8 @@
     "path": "data/tiles/22_Depth_To_Bedrock.pmtiles",
     "name": "Depth To Bedrock",
     "layer_name": "Depth_To_Bedrock",
-    "features": 5
+    "features": 5,
+    "max_zoom": 12
   },
   "23": {
     "type": "geojson",
@@ -130,6 +135,7 @@
     "path": "data/tiles/24_Hydraulic_Conductivity_of_Bedrock.pmtiles",
     "name": "Hydraulic Conductivity of Bedrock",
     "layer_name": "Hydraulic_Conductivity_of_Bedrock",
-    "features": 5
+    "features": 5,
+    "max_zoom": 12
   }
 }
