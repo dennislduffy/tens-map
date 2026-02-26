@@ -1,0 +1,135 @@
+{
+  "0": {
+    "type": "arcgis",
+    "url": "https://services5.arcgis.com/FKwcDz27wRAj4HUT/arcgis/rest/services/Minnesota_Department_of_Commerce_TENs_Suitability_Mapping_Tool_WFL1/FeatureServer/0",
+    "name": "Buildings by Typology",
+    "features": 2896337,
+    "note": "Loaded dynamically from ArcGIS service at zoom 14+"
+  },
+  "2": {
+    "type": "pmtiles",
+    "path": "data/tiles/02_Combined_TENs_Suitability_Hotspots_(drilling_+_population_density).pmtiles",
+    "name": "Combined TENs Suitability Hotspots (drilling + population density)",
+    "layer_name": "Combined_TENs_Suitability_Hotspots_(drilling_+_population_density)",
+    "features": 895
+  },
+  "3": {
+    "type": "pmtiles",
+    "path": "data/tiles/03_Drilling_Suitability.pmtiles",
+    "name": "Drilling Suitability",
+    "layer_name": "Drilling_Suitability",
+    "features": 63
+  },
+  "4": {
+    "type": "pmtiles",
+    "path": "data/tiles/04_Rivers.pmtiles",
+    "name": "Rivers",
+    "layer_name": "Rivers",
+    "features": 337418
+  },
+  "5": {
+    "type": "pmtiles",
+    "path": "data/tiles/05_Water_Bodies.pmtiles",
+    "name": "Water Bodies",
+    "layer_name": "Water_Bodies",
+    "features": 205031
+  },
+  "6": {
+    "type": "geojson",
+    "path": "data/processed/06_Environmental_Justice_Area.geojson",
+    "name": "Environmental Justice Area",
+    "features": 478
+  },
+  "7": {
+    "type": "geojson",
+    "path": "data/processed/07_Census_Tribal_Areas.geojson",
+    "name": "Census Tribal Areas",
+    "features": 24
+  },
+  "9": {
+    "type": "geojson",
+    "path": "data/processed/09_Building_Thermal_Energy_Sources_-_County_Data.geojson",
+    "name": "Building Thermal Energy Sources - County Data",
+    "features": 679
+  },
+  "10": {
+    "type": "geojson",
+    "path": "data/processed/10_Building_Thermal_Energy_Sources_-_City_Data.geojson",
+    "name": "Building Thermal Energy Sources - City Data",
+    "features": 4024
+  },
+  "11": {
+    "type": "geojson",
+    "path": "data/processed/11_Thermal_Energy_Sources_-_Other.geojson",
+    "name": "Thermal Energy Sources - Other",
+    "features": 795
+  },
+  "13": {
+    "type": "geojson",
+    "path": "data/processed/13_Ice_Rink.geojson",
+    "name": "Ice Rink",
+    "features": 140
+  },
+  "14": {
+    "type": "geojson",
+    "path": "data/processed/14_Grocery.geojson",
+    "name": "Grocery",
+    "features": 765
+  },
+  "15": {
+    "type": "geojson",
+    "path": "data/processed/15_Hospital.geojson",
+    "name": "Hospital",
+    "features": 134
+  },
+  "16": {
+    "type": "geojson",
+    "path": "data/processed/16_School.geojson",
+    "name": "School",
+    "features": 5892
+  },
+  "17": {
+    "type": "geojson",
+    "path": "data/processed/17_WWTP_Facilities.geojson",
+    "name": "WWTP Facilities",
+    "features": 2501
+  },
+  "19": {
+    "type": "geojson",
+    "path": "data/processed/19_Drinking_Water_Supply_High_Vulnerability.geojson",
+    "name": "Drinking Water Supply High Vulnerability",
+    "features": 402
+  },
+  "20": {
+    "type": "geojson",
+    "path": "data/processed/20_Conservation_Priority_Areas.geojson",
+    "name": "Conservation Priority Areas",
+    "features": 112
+  },
+  "21": {
+    "type": "geojson",
+    "path": "data/processed/21_Contaminated_Sites_50_ft_Buffer.geojson",
+    "name": "Contaminated Sites 50 ft Buffer",
+    "features": 1606
+  },
+  "22": {
+    "type": "pmtiles",
+    "path": "data/tiles/22_Depth_To_Bedrock.pmtiles",
+    "name": "Depth To Bedrock",
+    "layer_name": "Depth_To_Bedrock",
+    "features": 5
+  },
+  "23": {
+    "type": "geojson",
+    "path": "data/processed/23_Thermal_Conductivity_of_Bedrock.geojson",
+    "name": "Thermal Conductivity of Bedrock",
+    "features": 5
+  },
+  "24": {
+    "type": "pmtiles",
+    "path": "data/tiles/24_Hydraulic_Conductivity_of_Bedrock.pmtiles",
+    "name": "Hydraulic Conductivity of Bedrock",
+    "layer_name": "Hydraulic_Conductivity_of_Bedrock",
+    "features": 5
+  }
+}

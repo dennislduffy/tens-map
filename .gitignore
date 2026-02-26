@@ -1,0 +1,19 @@
+# Raw data — too large for git
+data/raw/
+data/tiles/
+
+# Processed GeoJSON is also large; only commit the final map HTML
+data/processed/
+
+# Keep the manifest and docs
+!data/layer_manifest.json
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyc
+.DS_Store
+
+# Environment
+.venv/
+venv/
