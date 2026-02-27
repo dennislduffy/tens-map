@@ -362,7 +362,9 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
       font-size: 11px; color: #444; text-align: center; pointer-events: none;
     }}
     #attr a {{ color: #0078d7; pointer-events: all; }}
-    .leaflet-control-layers {{ max-height: calc(90vh - 50px); overflow-y: auto; }}
+    .leaflet-control-layers {{ max-height: calc(90vh - 50px); overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; }}
+    .leaflet-control-layers::-webkit-scrollbar {{ width: 6px; }}
+    .leaflet-control-layers::-webkit-scrollbar-thumb {{ background: rgba(0,0,0,0.25); border-radius: 3px; }}
     .layers-toggle-btn {{
       display: block; width: 30px; height: 30px; line-height: 30px;
       background: white; border: 2px solid rgba(0,0,0,0.2); border-radius: 4px;
