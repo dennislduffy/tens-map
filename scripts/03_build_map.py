@@ -362,21 +362,29 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
       font-size: 11px; color: #444; text-align: center; pointer-events: none;
     }}
     #attr a {{ color: #0078d7; pointer-events: all; }}
-    .leaflet-control-layers {{ max-height: calc(90vh - 50px); overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; }}
-    .leaflet-control-layers::-webkit-scrollbar {{ width: 6px; }}
-    .leaflet-control-layers::-webkit-scrollbar-thumb {{ background: rgba(0,0,0,0.25); border-radius: 3px; }}
-    .layers-toggle-btn {{
-      display: block; width: 30px; height: 30px; line-height: 30px;
+    #layer-toggle-btn {{
+      position: fixed; top: 10px; right: 10px; z-index: 1001;
+      width: 30px; height: 30px; line-height: 28px;
       background: white; border: 2px solid rgba(0,0,0,0.2); border-radius: 4px;
-      font-size: 18px; text-align: center; cursor: pointer; color: #444;
-      box-shadow: none; padding: 0; margin-bottom: 4px;
+      font-size: 18px; text-align: center; cursor: pointer; color: #444; padding: 0;
     }}
-    .layers-toggle-btn:hover {{ background: #f4f4f4; }}
-    .layers-toggle-btn.active {{ background: #e8e8e8; }}
+    #layer-toggle-btn:hover {{ background: #f4f4f4; }}
+    #layer-toggle-btn.active {{ background: #e8e8e8; }}
+    #layer-panel {{
+      position: fixed; top: 48px; right: 10px; z-index: 1000;
+      max-height: calc(100vh - 68px);
+      overflow-y: auto; overflow-x: hidden; scrollbar-width: thin;
+      background: white; border-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    }}
+    #layer-panel::-webkit-scrollbar {{ width: 6px; }}
+    #layer-panel::-webkit-scrollbar-thumb {{ background: rgba(0,0,0,0.25); border-radius: 3px; }}
+    #layer-panel .leaflet-control-layers {{ box-shadow: none; border-radius: 0; background: transparent; }}
   </style>
 </head>
 <body>
   <div id="map"></div>
+  <button id="layer-toggle-btn" title="Show/hide layers panel">&#9776;</button>
+  <div id="layer-panel"></div>
   <div id="attr">
     Data: <a href="https://www.commerce.state.mn.us/" target="_blank">Minnesota Dept. of Commerce</a> |
     Building footprints: ORNL / FEMA
@@ -411,29 +419,21 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
 
   {all_layer_js}
 
-  // ── Layer control ───────────────────────────────────────────────────────────
-  var layerControl = L.control.layers(baseMaps, overlayLayers, {{collapsed:false,position:'topright'}}).addTo(map);
+  // ── Layer control — rendered into a fixed panel outside Leaflet's control flow
+  var layerControl = L.control.layers(baseMaps, overlayLayers, {{collapsed:false}}).addTo(map);
+  var layerPanel = document.getElementById('layer-panel');
+  layerPanel.appendChild(layerControl.getContainer());
+  L.DomEvent.disableClickPropagation(layerPanel);
+  L.DomEvent.disableScrollPropagation(layerPanel);
 
-  // ── Toggle button — injected directly above the layer panel ──────────────────
-  (function() {{
-    var btn = document.createElement('button');
-    btn.className = 'layers-toggle-btn';
-    btn.title = 'Show/hide layers panel';
-    btn.innerHTML = '&#9776;';
-    btn.addEventListener('click', function(e) {{
-      e.stopPropagation();
-      var panel = document.querySelector('.leaflet-control-layers');
-      var hidden = panel.style.display === 'none';
-      panel.style.display = hidden ? '' : 'none';
-      btn.classList.toggle('active', hidden);
-    }});
-    var wrapper = document.createElement('div');
-    wrapper.className = 'leaflet-control';
-    L.DomEvent.disableClickPropagation(wrapper);
-    wrapper.appendChild(btn);
-    var topRight = document.querySelector('.leaflet-top.leaflet-right');
-    topRight.insertBefore(wrapper, topRight.firstChild);
-  }})();
+  // ── Toggle button ────────────────────────────────────────────────────────────
+  var toggleBtn = document.getElementById('layer-toggle-btn');
+  toggleBtn.addEventListener('click', function(e) {{
+    e.stopPropagation();
+    var hidden = layerPanel.style.display === 'none';
+    layerPanel.style.display = hidden ? '' : 'none';
+    toggleBtn.classList.toggle('active', hidden);
+  }});
 
   </script>
 </body>
