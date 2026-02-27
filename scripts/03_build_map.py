@@ -409,10 +409,7 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
 
   {all_layer_js}
 
-  // ── Layer control ───────────────────────────────────────────────────────────
-  var layerControl = L.control.layers(baseMaps, overlayLayers, {{collapsed:false,position:'topright'}}).addTo(map);
-
-  // ── Toggle button ────────────────────────────────────────────────────────────
+  // ── Toggle button (added first so it sits above the layer panel) ─────────────
   var ToggleControl = L.Control.extend({{
     options: {{ position: 'topright' }},
     onAdd: function() {{
@@ -430,6 +427,9 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
     }}
   }});
   new ToggleControl().addTo(map);
+
+  // ── Layer control ───────────────────────────────────────────────────────────
+  var layerControl = L.control.layers(baseMaps, overlayLayers, {{collapsed:false,position:'topright'}}).addTo(map);
 
   </script>
 </body>
