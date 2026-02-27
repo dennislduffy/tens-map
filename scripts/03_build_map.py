@@ -350,7 +350,7 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
 
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    html, body {{ height: 100%; }}
+    html, body {{ height: 100%; overflow: hidden; }}
     #map {{ width: 100%; height: 100vh; }}
     .popup-table {{ border-collapse: collapse; margin-top: 4px; font-size: 12px; min-width: 200px; }}
     .popup-table th {{ text-align: left; padding: 2px 6px 2px 0; color: #555; font-weight: 600; white-space: nowrap; }}
