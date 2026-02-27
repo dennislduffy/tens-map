@@ -362,12 +362,12 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
       font-size: 11px; color: #444; text-align: center; pointer-events: none;
     }}
     #attr a {{ color: #0078d7; pointer-events: all; }}
-    .leaflet-control-layers {{ max-height: 90vh; overflow-y: auto; }}
+    .leaflet-control-layers {{ max-height: calc(90vh - 50px); overflow-y: auto; }}
     .layers-toggle-btn {{
       display: block; width: 30px; height: 30px; line-height: 30px;
       background: white; border: 2px solid rgba(0,0,0,0.2); border-radius: 4px;
       font-size: 18px; text-align: center; cursor: pointer; color: #444;
-      box-shadow: none; padding: 0;
+      box-shadow: none; padding: 0; margin-bottom: 4px;
     }}
     .layers-toggle-btn:hover {{ background: #f4f4f4; }}
     .layers-toggle-btn.active {{ background: #e8e8e8; }}
@@ -409,27 +409,29 @@ def build_html(layer_defs, geojson_info, pmtiles_refs) -> str:
 
   {all_layer_js}
 
-  // ── Toggle button (added first so it sits above the layer panel) ─────────────
-  var ToggleControl = L.Control.extend({{
-    options: {{ position: 'topright' }},
-    onAdd: function() {{
-      var btn = L.DomUtil.create('button', 'layers-toggle-btn');
-      btn.title = 'Show/hide layers panel';
-      btn.innerHTML = '&#9776;';
-      L.DomEvent.on(btn, 'click', function(e) {{
-        L.DomEvent.stopPropagation(e);
-        var panel = document.querySelector('.leaflet-control-layers');
-        var hidden = panel.style.display === 'none';
-        panel.style.display = hidden ? '' : 'none';
-        btn.classList.toggle('active', hidden);
-      }});
-      return btn;
-    }}
-  }});
-  new ToggleControl().addTo(map);
-
   // ── Layer control ───────────────────────────────────────────────────────────
   var layerControl = L.control.layers(baseMaps, overlayLayers, {{collapsed:false,position:'topright'}}).addTo(map);
+
+  // ── Toggle button — injected directly above the layer panel ──────────────────
+  (function() {{
+    var btn = document.createElement('button');
+    btn.className = 'layers-toggle-btn';
+    btn.title = 'Show/hide layers panel';
+    btn.innerHTML = '&#9776;';
+    btn.addEventListener('click', function(e) {{
+      e.stopPropagation();
+      var panel = document.querySelector('.leaflet-control-layers');
+      var hidden = panel.style.display === 'none';
+      panel.style.display = hidden ? '' : 'none';
+      btn.classList.toggle('active', hidden);
+    }});
+    var wrapper = document.createElement('div');
+    wrapper.className = 'leaflet-control';
+    L.DomEvent.disableClickPropagation(wrapper);
+    wrapper.appendChild(btn);
+    var topRight = document.querySelector('.leaflet-top.leaflet-right');
+    topRight.insertBefore(wrapper, topRight.firstChild);
+  }})();
 
   </script>
 </body>
