@@ -1,12 +1,12 @@
-# MN Commerce TENs Suitability Mapping Tool — Static Replica
+# TENs Suitability Mapping Tool — Static Replica
 
-A self-contained, static web map that replicates the [Minnesota Department of Commerce TENs Suitability Mapping Tool](https://www.commerce.state.mn.us/) (originally hosted on ArcGIS Online Experience Builder), deployable to GitHub Pages at zero cost.
+A self-contained, static web map that replicates the a thermal energy network (TEN) map commissioned by the Minnesota Department of Commerce(originally hosted on ArcGIS Online Experience Builder). This project is meant to demonstrate the viability of low to no-cost alternatives to ArcGIS applications.
 
-View the site at: https://dennislduffy.github.io/tens-map/
+View the map at: https://dennislduffy.github.io/tens-map/
 
 ## Purpose
 
-This is a proof of concept demonstrating that expensive ArcGIS Online hosting is unnecessary for this type of application. All 24 data layers are downloaded from the public ArcGIS Feature Service and converted to open formats (GeoJSON / PMTiles).
+This is a proof of concept demonstrating that expensive ArcGIS Online hosting is not always necessary for online mapping applications. All 24 data layers are downloaded from the public ArcGIS Feature Service and converted to open formats (GeoJSON / PMTiles).
 
 ## Data Source
 
@@ -84,23 +84,3 @@ open docs/index.html
 | ---------- | ---------------- | ---------------------------------------------- |
 | < 50 MB    | GeoJSON (inline) | Simple, no tile server needed                  |
 | ≥ 50 MB    | PMTiles          | Efficient tile delivery, served as static file |
-
-**Why not ArcGIS Online?**
-
-- No annual AGOL subscription required
-- No vendor lock-in
-- Faster page loads (no Esri JS API overhead)
-- Data in open formats (GeoJSON, PMTiles)
-- Free hosting on GitHub Pages
-
-## Map Features
-
-- Multiple basemaps: CartoDB Light, OpenStreetMap, Esri Satellite
-- 24 toggleable data layers (all off by default)
-- Click-to-popup showing feature attributes
-- Distinct color per layer
-- Centers on Minnesota at zoom 7
-
-## Learning Resources
-
-See [`learning/r_vs_python_geospatial.md`](learning/r_vs_python_geospatial.md) for a side-by-side R ↔ Python geospatial cheat sheet.
